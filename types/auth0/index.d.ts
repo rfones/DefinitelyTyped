@@ -1443,6 +1443,7 @@ export class OrganizationsManager {
 }
 export class ManagementClient<A = AppMetadata, U = UserMetadata> {
     organizations: OrganizationsManager;
+    users: ManagementUsersManager;
 
     constructor(options: ManagementClientOptions);
 
@@ -1876,4 +1877,81 @@ export class UsersManager<A = AppMetadata, U = UserMetadata> {
 
     impersonate(userId: string, settings: ImpersonateSettingOptions): Promise<any>;
     impersonate(userId: string, settings: ImpersonateSettingOptions, cb: (err: Error, data: any) => void): void;
+}
+
+export class ManagementUsersManager {
+    assignPermissions(params: ObjectWithId, data: PermissionsData): Promise<UserData>;
+    assignPermissions(params: ObjectWithId, data: PermissionsData, cb: (err: Error, user: UserData) => void): void;
+
+    assignRoles(params: ObjectWithId, data: RolesData): Promise<UserData>;
+    assignRoles(params: ObjectWithId, data: RolesData, cb: (err: Error, user: UserData) => void): void;
+
+    create(data: UserData): Promise<void>;
+    create(data: UserData, cb: (error: Error) => void): void;
+
+    delete(params: ObjectWithId): Promise<void>;
+    delete(params: ObjectWithId, cb: (error: Error) => void): void;
+
+    deleteMultifactorProvider(params: DeleteMultifactorParams): Promise<void>;
+    deleteMultifactorProvider(params: DeleteMultifactorParams, cb: (err: Error, user: UserData) => void): Promise<void>;
+
+    get(params: ObjectWithId): Promise<UserData>;
+    get(params: ObjectWithId, cb: (err: Error, user: UserData) => void): void;
+
+    getAll(params: PagingOptions): Promise<UserData[]>;
+    getAll(params: PagingOptions, cb: (err: Error, users: UserData[]) => void): void;
+
+    getByEmail(email: string, options: {fields: string, include_fields: boolean}): Promise<UserData[]>;
+    getByEmail(email: string, options: {fields: string, include_fields: boolean},
+               cb: (err: Error, users: UserData[]) => void): void;
+
+    getGuardianEnrollments(data: ObjectWithId): Promise<Enrollment[]>;
+    getGuardianEnrollments(data: ObjectWithId, cb: (err: Error, enrollments: Enrollment[]) => void): void;
+
+    getInfo(accessToken: string): Promise<UserData>;
+    getInfo(accessToken: string, cb: (err: Error, userInfo: UserData) => void): void;
+
+    getPermissions(data: ObjectWithId): Promise<Permission[]>;
+    getPermissions(data: ObjectWithId, cb: (err: Error, permissions: Permission[]) => void): void;
+
+    getRoles(data: ObjectWithId): Promise<Role[]>;
+    getRoles(data: ObjectWithId, cb: (err: Error, roles: Role[]) => void): void;
+
+    getUserOrganizations(params: ObjectWithId): Promise<Organization[]>;
+    getUserOrganizations(params: ObjectWithId, cb: (err: Error, data: Organization[]) => void): void;
+
+    impersonate(userId: string, settings: ImpersonateSettingOptions): Promise<string>;
+    impersonate(userId: string, settings: ImpersonateSettingOptions, cb: (err: Error, link: string) => void): void;
+
+    invalidateRememberBrowser(params: ObjectWithId): Promise<void>;
+    invalidateRememberBrowser(params: ObjectWithId, cb: (err: Error) => void): void;
+
+    link(userId: string, params: LinkAccountsParams|{link_with: string}): Promise<UserData>;
+    link(userId: string, params: LinkAccountsParams|{link_with: string},
+         cb: (err: Error, user: UserData) => void): void;
+
+    logs(params: ObjectWithId & PagingOptions & { sort?: string; include_totals?: false }): Promise<any>;
+    logs(params: ObjectWithId & PagingOptions & { sort?: string; include_totals?: false },
+         cb: (err: Error, logs: any) => void): void;
+
+    regenerateRecoveryCode(params: ObjectWithId): Promise<any>;
+    regenerateRecoveryCode(params: ObjectWithId, cb: (err: Error, result: any) => void): void;
+
+    removePermissions(params: ObjectWithId, data: PermissionsData): Promise<UserData>;
+    removePermissions(params: ObjectWithId, data: PermissionsData, cb: (err: Error, user: UserData) => void): void;
+
+    removeRoles(params: ObjectWithId, data: RolesData): Promise<UserData>;
+    removeRoles(params: ObjectWithId, data: RolesData, cd: (err: Error, user: UserData) => void): void;
+
+    unlink(params: {id: string, provider: string, user_id: string}): Promise<UserData>;
+    unlink(params: {id: string, provider: string, user_id: string}, cb: (err: Error, user: UserData) => void): void;
+
+    update(params: ObjectWithId, data: UserData): Promise<UserData>;
+    update(params: ObjectWithId, data: UserData, cb: (err: Error, user: UserData) => void): void;
+
+    updateAppMetadata(params: ObjectWithId, metadata: any): Promise<UserData>;
+    updateAppMetadata(params: ObjectWithId, metadata: any, cb: (err: Error, user: UserData) => void): void;
+
+    updateUserMetadata(params: ObjectWithId, metadata: any): Promise<UserData>;
+    updateUserMetadata(params: ObjectWithId, metadata: any, cb: (err: Error, user: UserData) => void): void;
 }
